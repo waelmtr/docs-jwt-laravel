@@ -1,0 +1,253 @@
+openapi: 3.0.3
+info:
+  title: 'Laravel Jwt auth'
+  description: 'A simple REST API in Laravel'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+paths:
+  /api/register:
+    post:
+      summary: Register
+      operationId: register
+      description: 'This endpoint is used to register a user to the system.'
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Successful Register'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"message\": \"User Successfully Registered\",\n\"user : {\n \"name\" : \"....\"\n \"email\" : \"....\"\n }\n}"
+        400:
+          description: 'Failed Reqister'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"field\": [ \"the Field is required\" ]\nExample :  \"name\": [\n  \"The name field is required.\"\n  ],\n}"
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: wael
+                email:
+                  type: string
+                  description: ''
+                  example: ian@gmail.com
+                password:
+                  type: string
+                  description: ''
+                  example: '12345678'
+              required:
+                - name
+                - email
+                - password
+      security: []
+  /api/login:
+    post:
+      summary: Login
+      operationId: login
+      description: 'This endpoint is used to login a user to the system.'
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Successful Login'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNjc3NDk0MjQxLCJleHAiOjE2Nzc0OTc4NDEsIm5iZiI6MTY3NzQ5NDI0MSwianRpIjoiNFpNVlVuQ0FoZ1E2UGt6UiIsInN1YiI6IjIiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.4NkkCmlRMy8qy2O3LtoB4f3_RMwa8tw6xlB1s5JRW4M\",\n\"token_type\": \"Bearer\"\n\"expire_in\" : integer\n}"
+        401:
+          description: 'Failed Login'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: Unauthorized
+                properties:
+                  error:
+                    type: string
+                    example: Unauthorized
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: ''
+                  example: ian@gmail.com
+                password:
+                  type: string
+                  description: ''
+                  example: '12345678'
+              required:
+                - email
+                - password
+      security: []
+  /api/logout:
+    post:
+      summary: Logout
+      operationId: logout
+      description: 'this is end point for user logout'
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer <your_token>'
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'logout success'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'User successfully logged out.'
+                properties:
+                  message:
+                    type: string
+                    example: 'User successfully logged out.'
+      tags:
+        - Products
+  /api/refresh:
+    post:
+      summary: 'Refresh Token'
+      operationId: refreshToken
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer <Token>'
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n     'access_token' => \"new token\",\n     'token_type' => 'bearer',\n    'expires_in' => 'auth()->factory()->getTTL() * 60'\n}"
+      tags:
+        - Products
+      security: []
+  /api/profile:
+    post:
+      summary: Profile
+      operationId: profile
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer <Token>'
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n     'id' => \"1\",\n     'name' => 'wael',\n    'email' => 'wael@gmail.com'\n}"
+      tags:
+        - Products
+      security: []
+tags:
+  -
+    name: Products
+    description: "\nAPIs for managing Products"
